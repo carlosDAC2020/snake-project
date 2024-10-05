@@ -1,0 +1,68 @@
+/* estilos de ranking list */
+.rank{
+    border-radius: 20px;
+    height:  800px;
+}
+
+.filter-score{
+    margin-top: 15px;
+}
+/* input de busqueda por ususrio */
+.form-control{
+    background-color: #06050500;
+    color: #ebebeb;
+    border:0px;
+    font-size: 25px;
+    border-bottom: 2px solid #31bc1c;
+}
+/* Estilos específicos para el placeholder de los inputs dentro del formulario */
+.form-control::placeholder {
+    color: #cecbcb; /* Color gris personalizado */
+    opacity: 1; /* Controlar la opacidad, 1 significa 100% visible */
+    font-size: 25px;
+}
+
+/* Cambiar el placeholder cuando el input está enfocado */
+.form-control:focus::placeholder {
+    font-weight: bold; /* Hacer el texto más grueso en el foco */
+}
+
+/* Remover bordes de enfoque */
+.form-control:focus {
+    box-shadow: none; /* Sin sombra de enfoque */
+    outline: 0; /* Sin borde exterior */
+}
+
+.score-list{
+    margin-top: 5px;
+    max-height: 500px;
+    height: 500px;
+    overflow-y: auto; /* Habilita el desplazamiento vertical */
+}
+.fc{
+    border-radius: 10px;
+}
+.socre{
+    height: 100px;
+    padding: 10px;
+    position: relative;
+    align-items: center;
+}
+
+.bi-bookmark{
+    left: 20%;
+    font-size: 35px;
+}
+
+/* selectores de dificultad */
+.dfc{
+    cursor: pointer;
+}
+.dfc:hover{
+    border-bottom: 2px solid #31bc1c;
+}
+/* Estilo para el borde activo */
+.active {
+    border-bottom: 2px solid #31bc1c; /* Borde para la sección activa */
+    cursor: pointer;
+}

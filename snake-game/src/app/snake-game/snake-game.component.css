@@ -1,0 +1,55 @@
+.game-container {
+    /*display: flex;
+    justify-content: center;*/
+    
+}
+canvas {
+    border: 2px solid #575353;
+}
+
+.score{
+    font-size: 80px;
+    color: #929191;
+    border-bottom: 2px solid #31bc1c;
+}
+
+.df{
+    color: #929191;
+}
+
+.control-status{
+    height: 80px;
+    width: 80px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #31bc1c;
+    color: #070707;
+    font-size: 40px;
+    cursor: pointer;
+}
+.modal-content{
+    background-color: #131313;
+    border: 2px solid #929191;
+    width: 800px;
+    height: 400px;
+}
+
+.gene{
+    color: #b3b3b3;
+}
+
+.reg{
+    border-bottom: 3px solid red;
+}
+.sup{
+    border-bottom: 3px solid blue;
+}
+.hyp{
+    border-bottom: 3px solid gold;
+}
+
+.bi-speedometer2{
+    color: #31bc1c;
+}

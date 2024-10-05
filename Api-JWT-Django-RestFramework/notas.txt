@@ -1,0 +1,2 @@
+from scripts.create_users_and_games import create_users_and_games
+create_users_and_games(num_users=10, num_games_per_user=15)  # Crear 10 usuarios y 5 juegos por usuario

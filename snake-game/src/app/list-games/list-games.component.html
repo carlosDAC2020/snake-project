@@ -1,0 +1,68 @@
+<h1>Ranking</h1>
+<div class="row filter-score gap-3">
+    <div class="col-md-4 fc p-2 d-flex justify-content-center align-items-center">
+        <input 
+        type="text" 
+        class="form-control" 
+        placeholder="Username" 
+        [(ngModel)]="usernameFilter" 
+        (input)="filterGames()"  
+        >
+    </div>
+    <div class="col-md-6 fc p-2">
+        <h5 class="text-center">Difficulty</h5>
+        <div class="row">
+            <div 
+                class="col-md-4 d-flex justify-content-center align-items-center dfc" 
+                [ngClass]="{'active': selectedDifficulty === 'difficult'}"
+                (click)="selectDifficulty('difficult')"
+            >
+                <h5>💀Difficult</h5>
+            </div>
+            <div 
+                class="col d-flex justify-content-center align-items-center dfc" 
+                [ngClass]="{'active': selectedDifficulty === 'half'}"
+                (click)="selectDifficulty('half')"
+            >
+                <h5>😜Half</h5>
+            </div>
+            <div 
+                class="col d-flex justify-content-center align-items-center dfc" 
+                [ngClass]="{'active': selectedDifficulty === 'easy'}"
+                (click)="selectDifficulty('easy')"
+            >
+                <h5>🥱Easy</h5>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4  score-list">
+    <div 
+    *ngFor="let game of filteredGames"
+    class="col px-2">
+        <div class="socre bord">
+            <div class="row mt-1">
+                <div class="col-md-6 ">
+                    <h3><i class="bi bi-person-circle me-2"></i>{{game.user}}</h3>
+                    <span style="margin-left: 35px;">{{game.played_at}}</span>
+                </div>
+                <div class="col-md-6  d-flex  justify-content-center  align-items-center">
+                    <div class="row">
+                        <div class="col d-flex  justify-content-center  align-items-center">
+                            <h2 class="me-3">{{game.score}}</h2>
+                        </div>
+                        <div class="col d-flex  justify-content-center  align-items-center">
+                            <!-- Agregar el ícono según la dificultad -->
+                            <h2 *ngIf="game.difficulty === 'Difficult'">💀</h2>
+                            <h2 *ngIf="game.difficulty === 'Half'">😜</h2>
+                            <h2 *ngIf="game.difficulty === 'Easy'">🥱</h2>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

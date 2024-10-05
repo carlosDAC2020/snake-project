@@ -1,0 +1,79 @@
+
+<!-- 
+    enrutado 
+    <canvas #gameCanvas width="800" height="700"></canvas>
+    -->
+<div class="game-container p-3">
+  <div class="row g-3">
+    <!-- Columna para el Rank -->
+    <div class="col-md-4 ">
+      <div class="rank bord p-4  w-100">
+        <h2><i class="bi bi-person-circle me-2"></i>User_pepito</h2>
+        <h1 class="text-center score p-1 w-80">{{ score }}</h1>
+        
+        <div class="d-flex justify-content-center align-items-center">
+          <div 
+            (click)="toggleGame()" 
+            class="control-status">
+            <i *ngIf="!inPley" class="bi bi-play-fill"></i>
+            <i *ngIf="inPley" class="bi bi-pause-fill"></i>
+          </div>
+        </div>
+        
+
+        <h3 class="mt-2">Difficulty</h3>
+        <h1 class="text-center df">😜Half</h1>
+
+        <h3 class="mt-2">Time</h3>
+        <h1 class="text-center df">{{ gameTime }}s</h1>
+
+        <h3 class="mt-2">Ranking Position</h3>
+        <h1 class="text-center df">200</h1>
+
+        <h3 class="mt-2">types of points </h3>
+        <div class="row gap-2 p-2">
+          <div class="col text-center ">
+            <h5 class="reg">+10</h5> 
+          </div>
+          <div class="col text-center  ">
+           <h5 class="sup">+20 -  <i class="bi bi-speedometer2"></i> x2</h5> 
+          </div>
+          <div class="col text-center ">
+           <h5 class="hyp">+50 - <i class="bi bi-speedometer2"></i> x4</h5> 
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna para el Game Space -->
+    <div class="col-md-8 d-flex justify-content-center align-items-center ">
+      <canvas #gameCanvas width="900" height="600"></canvas>
+    </div>
+  </div>
+  <div class=" show-modal" data-bs-toggle="modal" data-bs-target="#exampleModal"></div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> <!-- Agregar modal-dialog-centered aquí -->
+      <div class="modal-content p-4">
+          <h1 style="font-size: 60px;">Game</h1>
+          
+          <div class="w-100  d-flex justify-content-center align-items-center ">
+            <h1 class="score ">{{score}}</h1>
+        </div>
+        <h2 class="mt-3  text-center gene">2024-05-06 - 
+            @if ( dificult=='Easy') {
+                🥱Easy
+            }
+            @else if ( dificult=='Half') {
+                😜Half
+            }
+            @else {
+                💀Difficult
+            }
+        </h2>
+          
+          
+      </div>
+  </div>
+</div>

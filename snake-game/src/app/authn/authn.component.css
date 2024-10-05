@@ -1,0 +1,57 @@
+
+.auth-section{
+    width: 590px;
+    padding: 20px;
+    max-height: 800px;
+    border-radius: 20px;
+    top: 50%;
+}
+
+
+/* Estilo base para los inputs */
+.form-control {
+    background-color: #4b4a4a;
+    color: aliceblue;
+    border: 0px;
+    height: 50px;
+    font-size: 25px;
+    border-radius: 10px;
+}
+/* Estilos específicos para el placeholder de los inputs dentro del formulario */
+.form-control::placeholder {
+    color: #f8f4f4; /* Color gris personalizado */
+    opacity: 1; /* Controlar la opacidad, 1 significa 100% visible */
+}
+
+/* Cambiar el placeholder cuando el input está enfocado */
+.form-control:focus::placeholder {
+    font-weight: bold; /* Hacer el texto más grueso en el foco */
+}
+
+/* Remover bordes de enfoque */
+.form-control:focus {
+    box-shadow: none; /* Sin sombra de enfoque */
+    border-color: transparent; /* Borde transparente en enfoque */
+    outline: 0; /* Sin borde exterior */
+}
+
+.login-btn{
+    border-bottom: 2px solid #31bc1c;
+    cursor: pointer;
+}
+.login-btn:hover{
+    background-color: #4a9d3d;
+}
+
+.Register-btn{
+    border-bottom: 2px solid #3d9d9b;
+    cursor: pointer;
+}
+
+.Register-btn:hover{
+    background-color: #3d9d9b;
+}
+
+.danger{
+    color: #e42525f2;
+}

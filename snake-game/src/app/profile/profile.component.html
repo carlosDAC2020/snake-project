@@ -1,0 +1,144 @@
+<div class=" profile-section bord">
+    <div class="row" >
+        <div class="col-md-4 d-flex  justify-content-center  align-items-center">
+            <i class="bi bi-person-circle me-2 profile-icon"></i>
+        </div>
+        <div class="col-md-8 d-flex  align-items-center">
+            <div class="profile-info">
+                <h1 class="">{{user.username}}</h1>
+                <h3 class="">Level</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div 
+            (click)="changeActionProfile('games')"
+            class="col-md-6 d-flex justify-content-center p-2 action-profile" 
+            [ngClass]="{'active': IsSetting === 'games'}">
+            <h3><i class="bi bi-controller"></i> My Games</h3>
+        </div>
+        <div 
+            (click)="changeActionProfile('setting')"
+            class="col-md-6 d-flex justify-content-center p-2 action-profile" 
+            [ngClass]="{'active': IsSetting === 'setting'}">
+            <h3><i class="bi bi-gear-fill"></i> Settings</h3>
+        </div>
+    </div>
+
+    @if (IsSetting=="setting") {
+        <div class="setting">
+            <h2>Info Acocunt</h2>
+            <div class="row p-2">
+                <div class="col-md-4 mb-2">
+                    <H3>Username</H3>
+                </div>
+                <div class="col-md-7 mb-2">
+                    <input 
+                    [(ngModel)]="updatedUser.username"
+                    type="text" class="form-control" placeholder="name@example.com">
+                </div>
+                <div class="col-md-4 mb-2">
+                    <h3>Password</h3>
+                </div>
+                <div class="col-md-7 mb-2">
+                    <input 
+                    [(ngModel)]="updatedUser.password"
+                    type="password" class="form-control" placeholder="Password">
+                </div>
+                <!-- 
+                <div class="col-md-4">
+                    <h3>Theme</h3>
+                </div>
+                <div class="col-md-6">
+                    <input type="color" class=" form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+                </div>
+                -->
+                
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-md-4 ">
+                    <h4 
+                    (click)="updateProfile()"
+                    class=" text-center edit-btn p-2"><i class="bi bi-pencil-square"></i> Edit Data</h4>
+                </div>
+                <div class="col-md-6 ">
+                    <h4
+                    (click)="deleteAccount()"
+                    class=" text-center delete-btn p-2"><i class="bi bi-trash3"></i> Dekete Account</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4 
+                    (click)="logout()"
+                    class=" text-center p-2 btn-logout">
+                        <i class="bi bi-door-closed"></i> 
+                    </h4>
+                </div>
+            </div>
+        </div>        
+    }
+    @else {
+        <div class="my-games">
+            <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 mt-2 list-score">
+                <div 
+                *ngFor="let game of games"
+                class="col px-2">
+                    <div class="socre bord p-2">
+                        <div class="row">
+                            <div class="col">
+                                <h1 class="mb-1">{{game.score}}</h1>
+                                <span>{{game.played_at}}</span>
+                            </div>
+                            <div class="col d-flex justify-content-center align-items-center">
+                                <h2 *ngIf="game.difficulty === 'Difficult'">💀</h2>
+                                <h2 *ngIf="game.difficulty === 'Half'">😜</h2>
+                                <h2 *ngIf="game.difficulty === 'Easy'">🥱</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row gap-1 mt-4">
+                <div class="col-md-3  d-flex justify-content-center align-items-center" >
+                    <h5 
+                    (click)="startGame()"
+                    class="start p-2 text-center"
+                    >Start Game</h5>
+                </div>
+                <div class="col-md-8">
+                    <h5 class="text-center">Difficulty</h5>
+                    <div class="row">
+                        <div 
+                            class="col-md-5 d-flex justify-content-center align-items-center dfc" 
+                            [ngClass]="{'active': selectedDifficulty === 'Difficult'}"
+                            (click)="selectDifficulty('Difficult')"
+                        >
+                            <h5>💀Difficult</h5>
+                        </div>
+                        <div 
+                            class="col d-flex justify-content-center align-items-center dfc" 
+                            [ngClass]="{'active': selectedDifficulty === 'Half'}"
+                            (click)="selectDifficulty('Half')"
+                        >
+                            <h5>😜Half</h5>
+                        </div>
+                        <div 
+                            class="col d-flex justify-content-center align-items-center dfc" 
+                            [ngClass]="{'active': selectedDifficulty === 'Easy'}"
+                            (click)="selectDifficulty('Easy')"
+                        >
+                            <h5>🥱Easy</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        
+            
+            
+
+            
+        </div>
+    }
+</div>

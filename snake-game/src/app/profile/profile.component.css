@@ -1,0 +1,212 @@
+.profile-section{
+    width: 590px;
+    padding: 20px;
+    max-height: 800px;
+    border-radius: 20px;
+}
+
+.profile-icon{
+    font-size: 100px;
+}
+
+.profile-info h1 {
+    font-size: 48px; /* Tamaño específico para h1 */
+    font-weight: bold; /* Opcional: peso de la fuente */
+}
+
+.profile-info h3 {
+    font-size: 34px; /* Tamaño específico para h3 */
+    font-weight: normal; /* Opcional: peso de la fuente */
+    color: #929191;
+}
+
+
+.bi-controller{
+    font-size: 35px;
+}
+.bi-gear-fill{
+    font-size: 35px;
+}
+
+.action-profile {
+    cursor: pointer;
+}
+
+.action-profile:hover {
+    border-bottom: 2px solid #31bc1c; /* Borde en hover */
+}
+
+/* Estilo para el borde activo */
+.active {
+    border-bottom: 2px solid #31bc1c; /* Borde para la sección activa */
+    cursor: pointer;
+}
+
+.my-games {
+    
+    overflow-x: hidden; /* Evita el scroll horizontal */
+    padding: 10px; /* Espaciado interno para mejorar la apariencia */
+}
+.list-score{
+    max-height: 260px; /* Mantiene la altura máxima */
+    overflow-y: auto; /* Permite el scroll vertical */
+}
+.socre {
+    height: 100px; /* Mantener la altura de cada tarjeta */
+    position: relative;
+    border: 1px solid #ccc; /* Opcional: borde para definir mejor las tarjetas */
+    border-radius: 8px; /* Opcional: bordes redondeados */
+    transition: box-shadow 0.3s; /* Efecto de transición */
+}
+
+.socre:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Efecto al pasar el mouse */
+}
+
+/* Para asegurarte de que las columnas se distribuyan correctamente */
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.col {
+    padding-left: 0.5rem; /* Espaciado entre columnas */
+    padding-right: 0.5rem; /* Espaciado entre columnas */
+}
+
+.bi-bookmark{
+    font-size: 35px;
+}
+
+
+/* botones de accion de juego */
+.start{
+    border: 2px solid #31bc1c;
+    cursor: pointer;
+}
+.Difficulty{
+    cursor: pointer;
+}
+
+.start:hover{
+    background-color: #4a9d3d;
+    border: 0px;
+}
+.Difficulty:hover{
+    background-color: #6f6f6f;
+    border: 0px;
+}
+
+.collapse{
+    background-color: #6f6f6f;
+    left: 30%;
+    position: absolute;
+}
+
+.dfc{
+    cursor: pointer;
+}
+.dfc:hover{
+    border-bottom: 2px solid #31bc1c;
+}
+
+
+
+/* Estilos de la sección setting */
+.setting {
+    margin-top: 10px;
+}
+
+/* Estilo base para los inputs */
+.form-control {
+    background-color: #4b4a4a;
+    color: aliceblue;
+    border: 0px;
+    height: 50px;
+    font-size: 25px;
+    border-radius: 10px;
+}
+/* Estilos específicos para el placeholder de los inputs dentro del formulario */
+.form-control::placeholder {
+    color: #f8f4f4; /* Color gris personalizado */
+    opacity: 1; /* Controlar la opacidad, 1 significa 100% visible */
+}
+
+/* Cambiar el placeholder cuando el input está enfocado */
+.form-control:focus::placeholder {
+    font-weight: bold; /* Hacer el texto más grueso en el foco */
+}
+
+/* Remover bordes de enfoque */
+.form-control:focus {
+    box-shadow: none; /* Sin sombra de enfoque */
+    border-color: transparent; /* Borde transparente en enfoque */
+    outline: 0; /* Sin borde exterior */
+}
+
+.form-control-color{
+    background-color: #00000000;
+    width: 50px;
+    height: 50px;
+}
+
+
+.edit-btn{
+    color: #cbc9c9;
+    cursor: pointer;
+    border-bottom: 2px solid #3d9d9b;
+}
+.edit-btn:hover{
+    color: #ffffff;
+    background-color: #3d9d9b;
+}
+
+.delete-btn{
+    color: #cbc9c9;
+    cursor: pointer;
+    border-bottom: 2px solid #dc1010e8;
+}
+.delete-btn:hover{
+    color: #ffffff;
+    background-color: #f52424af;
+}
+
+.btn-logout{
+    border-bottom: 2px solid #929191;
+}
+
+.btn-logout:hover{
+    background-color: #929191;
+}
+
+
+.modal-content{
+    background-color: #131313;
+    border: 2px solid #929191;
+    width: 800px;
+    height: 400px;
+}
+
+.loader {
+    border: 5px solid #4eeb4e87; /* Color del fondo del spinner */
+    border-top: 8px solid #34db34; /* Color del spinner */
+    border-radius: 1000%;
+    width: 200px; /* Tamaño del spinner */
+    height: 200px; /* Tamaño del spinner */
+    animation: spin 1s linear infinite; /* Llama a la animación */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+.score{
+    font-size: 150px;
+    color: #929191;
+    border-bottom: 2px solid #31bc1c;
+}
+.gene{
+    color: #b3b3b3;
+    
+}
