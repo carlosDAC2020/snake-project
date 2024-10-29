@@ -123,12 +123,12 @@ export class ProfileComponent implements OnInit {
 
   logout(){
     this.auth.logout()
-    this.router.navigate(['/index']);
+    this.router.navigate(['/Snake-Game/index']);
   }
 
 
   startGame() {
-    
+    this.router.navigate(['/snake'],{ queryParams: { dificult: this.selectedDifficulty } });
   }
   
   // Nueva función para actualizar la lista de juegos

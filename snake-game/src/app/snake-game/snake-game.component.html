@@ -22,26 +22,26 @@
         
 
         <h3 class="mt-2">Difficulty</h3>
-        <h1 class="text-center df">😜Half</h1>
+        <h1 class="text-center df">
+          @if ( dificult=='Easy') {
+              🥱Easy
+          }
+          @else if ( dificult=='Half') {
+              😜Half
+          }
+          @else {
+              💀Difficult
+          }
+        </h1>
 
         <h3 class="mt-2">Time</h3>
         <h1 class="text-center df">{{ gameTime }}s</h1>
 
-        <h3 class="mt-2">Ranking Position</h3>
-        <h1 class="text-center df">200</h1>
 
         <h3 class="mt-2">types of points </h3>
-        <div class="row gap-2 p-2">
-          <div class="col text-center ">
-            <h5 class="reg">+10</h5> 
-          </div>
-          <div class="col text-center  ">
-           <h5 class="sup">+20 -  <i class="bi bi-speedometer2"></i> x2</h5> 
-          </div>
-          <div class="col text-center ">
-           <h5 class="hyp">+50 - <i class="bi bi-speedometer2"></i> x4</h5> 
-          </div>
-        </div>
+        <h5 class="reg text-center">Normal: +10 points</h5> 
+        <h5 class="sup text-center">Super: +20 points - Speed x2  for 10s <i class="bi bi-speedometer2"></i></h5> 
+        <h5 class="hyp text-center">Hyper: +50 points - Speed x4 for 20s <i class="bi bi-speedometer2"></i></h5> 
       </div>
     </div>
 

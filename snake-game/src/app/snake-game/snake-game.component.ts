@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 import { Food } from '../models/food';
 import { Router } from '@angular/router'; // Importa Router
-
+import { ActivatedRoute } from '@angular/router'; // obtener parametros de url
 // services
 import { GameService } from '../services/game/game.service';
 import { AuthService } from '../services/auth/auth.service';
@@ -44,18 +44,22 @@ export class SnakeGameComponent implements OnInit {
 
   lastFoodWasSuperSpecial: boolean = false;
 
-  dificult: string = 'dificult';
+  dificult: string = '';
   obstacles: { x: number, y: number }[] = [];
 
   constructor(
     private gameService:GameService,
     private auth:AuthService,
-    private router: Router
+    private router: Router,
+    private params: ActivatedRoute,
   ) {
     this.inPley = false;
   }
 
   ngOnInit() {
+    this.params.queryParams.subscribe(parms => {
+      this.dificult = parms['dificult'];
+    });
     this.ctx = this.canvas.nativeElement.getContext('2d');
     if (this.ctx) {
       this.placeSnake(); // Colocar la serpiente al cargar el componente
@@ -132,7 +136,7 @@ export class SnakeGameComponent implements OnInit {
 
   placeFood() {
     const randomType = Math.random();
-
+  
     if (this.lastFoodWasSuperSpecial) {
       this.food = this.regularFood;
     } else {
@@ -144,13 +148,21 @@ export class SnakeGameComponent implements OnInit {
         this.food = this.regularFood;
       }
     }
-
-    this.food.x = Math.floor(Math.random() * (this.canvasWidth / this.gridSize)) * this.gridSize;
-    this.food.y = Math.floor(Math.random() * (this.canvasHeight / this.gridSize)) * this.gridSize;
+  
+    let x, y;
+    // Asegúrate de que la comida no aparezca en el mismo lugar que la serpiente o los obstáculos
+    do {
+      x = Math.floor(Math.random() * (this.canvasWidth / this.gridSize)) * this.gridSize;
+      y = Math.floor(Math.random() * (this.canvasHeight / this.gridSize)) * this.gridSize;
+    } while (this.isPositionOccupied(x, y));
+  
+    this.food.x = x;
+    this.food.y = y;
   }
+  
 
   placeObstacles() {
-    const obstacleCount = this.dificult === 'Easy' ? 0 : this.dificult === 'Medium' ? 50 : 100;
+    const obstacleCount = this.dificult === 'Easy' ? 0 : this.dificult === 'Half' ? 50 : 150;
 
     this.obstacles = [];
     for (let i = 0; i < obstacleCount; i++) {
@@ -282,12 +294,11 @@ export class SnakeGameComponent implements OnInit {
   }
 
   endGame() {
+    clearInterval(this.gameInterval);
+    this.gameInterval = null;
+    clearInterval(this.gameTimeInterval);
+    this.gameTimeInterval = null;
     this.saveGame()
-
-    //clearInterval(this.gameInterval);
-    //this.gameInterval = null;
-    //clearInterval(this.gameTimeInterval);
-    //this.gameTimeInterval = null;
   }
 
   resetGame() {
