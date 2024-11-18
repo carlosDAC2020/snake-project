@@ -1,8 +1,8 @@
 
 <div class=" d-flex justify-content-center align-items-center h-100 " style="width: 590px;">
-    <div class="auth-section bord">
+    <div class="auth-section bord sect ">
         <h1 class="mb-3">
-            @if (authType=="login") {
+            @if (authType=="Login") {
                 Snake Login
             }
             @else {
@@ -43,6 +43,12 @@
         @if (rep_password!=auth.password && authType=="Register") {
             <span class="danger">
               <i class="bi bi-x-circle me-2 "></i>Password does not match
+            </span>
+          }
+        
+          @if(error_message.length>0){
+            <span class="danger">
+                <i class="bi bi-x-circle me-2 "></i>{{error_message}}
             </span>
           }
         <div class="row mt-2">

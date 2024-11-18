@@ -30,6 +30,7 @@ export class AuthnComponent {
   };
   rep_password:string="";
 
+  error_message :string = "";
   authType:string="Login"
 
   login(){
@@ -45,7 +46,9 @@ export class AuthnComponent {
         this.router.navigate(['/Snake-Game/home']);
       }
     }, error => {
-      console.error('Login error', error);
+      console.log("algo salio mal ");
+      console.log(error.status)
+      this.error_message="invalid password or username";
     });
     }
     else{

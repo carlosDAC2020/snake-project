@@ -1,9 +1,28 @@
 section {
     height: 100vh; /* 100% de la altura del viewport */
     width: 100%;   /* 100% del ancho de la pantalla */
-    background-color: #060505; /* Color de fondo */
+    background-color: #060505c6;  /*Color de fondo */
     color: beige;
     padding: 30px;
 }
 
-
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover; /* Para que el video se ajuste al tamaño de la ventana */
+    z-index: -1; /* Para que esté detrás de los demás elementos */
+}
+@media (max-width: 768px) {
+    .background-video {
+      display: none; /* Oculta el video en pantallas pequeñas */
+    }
+}
+  
+.app-content {
+position: relative;
+z-index: 1; /* Para que esté encima del video */
+}
+  

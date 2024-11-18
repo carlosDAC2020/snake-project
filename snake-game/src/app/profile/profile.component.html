@@ -1,4 +1,4 @@
-<div class=" profile-section bord">
+<div class=" profile-section bord sect">
     <div class="row" >
         <div class="col-md-4 d-flex  justify-content-center  align-items-center">
             <i class="bi bi-person-circle me-2 profile-icon"></i>
@@ -129,6 +129,23 @@
                             (click)="selectDifficulty('Easy')"
                         >
                             <h5>🥱Easy</h5>
+                        </div>
+                    </div>
+                    <h5 class="text-center">Controls</h5>
+                    <div class="row">
+                        <div 
+                            class="col-md-5 d-flex justify-content-center align-items-center dfc" 
+                            [ngClass]="{'active': selectedControl === 'keyboard'}"
+                            (click)="selectControl('keyboard')"
+                        >
+                            <h5><i class="bi bi-keyboard"></i> Keyboard</h5>
+                        </div>
+                        <div 
+                            class="col d-flex justify-content-center align-items-center dfc" 
+                            [ngClass]="{'active': selectedControl === 'mouse'}"
+                            (click)="selectControl('mouse')"
+                        >
+                            <h5>🖱️ Mouse</h5>
                         </div>
                     </div>
                 </div>

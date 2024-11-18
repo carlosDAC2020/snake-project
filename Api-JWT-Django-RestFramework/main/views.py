@@ -20,7 +20,7 @@ import random
 def login(request):
     user = get_object_or_404(User, username=request.data['username'])
     if not user.check_password(request.data['password']):
-        return Response({"error":"invalid password"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"invalid password or username"}, status=status.HTTP_400_BAD_REQUEST)
     
     token, created = Token.objects.get_or_create(user=user)
     serializer = UserSerilizer(instance=user)
@@ -99,10 +99,32 @@ def delete_user(request):
 
 @api_view(['GET'])
 def list_all_games(request):
-    games = Game.objects.all()  # Consulta todos los juegos
-    serializer = GameSerializer(games, many=True)  # Serializa todos los juegos
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
+    best_games = []
+    # ordenamos las mejores puntuacione spor cada tipo de juego 
+    users = User.objects.all()
+
+    dificult = {
+        'Easy':[],
+        'Half':[],
+        'Difficult':[]
+    }
+
+    for user in users:
+        print(user)
+        for dif in dificult.keys():
+            games = Game.objects.filter(user=user,difficulty=dif).order_by('-score')
+            if len(games) > 0:
+                dificult[dif].append(games[0])
+                print(games[0])
+    
+    for dif in dificult.keys():
+        # ordenamos de mayor a menor puntaje de juegos 
+        dificult[dif].sort(key=lambda x: x.score, reverse=True)
+        best_games.extend(dificult[dif])
+
+    serializer = GameSerializer(best_games, many=True)  # Serializa todos los juegos
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])  
@@ -117,7 +139,8 @@ def save_game(request):
     new_game = Game.objects.create(
         user=user,
         score=request.data['score'],
-        difficulty=request.data['difficulty']
+        difficulty=request.data['difficulty'],
+        time=request.data['time']
     )
     new_game.save()
     print(" juego creado ")
@@ -126,8 +149,6 @@ def save_game(request):
 
     # Devolver los datos serializados
     return Response({"game": serializer_new_game.data}, status=status.HTTP_201_CREATED)
-
-
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])  

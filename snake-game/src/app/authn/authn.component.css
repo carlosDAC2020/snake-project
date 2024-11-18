@@ -7,6 +7,9 @@
     top: 50%;
 }
 
+.sect{
+    background-color: #0a0a0aaa;
+}
 
 /* Estilo base para los inputs */
 .form-control {

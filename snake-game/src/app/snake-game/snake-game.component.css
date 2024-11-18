@@ -53,3 +53,73 @@ canvas {
 .bi-speedometer2{
     color: #31bc1c;
 }
+
+.sect{
+    background-color: #0a0a0aec;
+}
+
+.help {
+    color: #fff;
+    background-color: rgba(13, 11, 11, 0.9);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .help-container {
+   
+    width: 60%;
+    background-color: #131313;
+    position: relative; /* Asegura que los elementos hijos como el botón se posicionen correctamente */
+  }
+  
+  .img-help {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Escala y recorta las imágenes */
+    border-radius: 10px;
+    border: 2px solid #929191;
+  }
+  
+  .close-help {
+    color: #fff;
+    position: absolute; /* Posiciona el botón dentro de .help-container */
+    top: -20px; /* Ajusta la posición vertical */
+    right: -20px; /* Ajusta la posición horizontal */
+    cursor: pointer;
+    background-color: #070707;
+    border: 2px solid #929191;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Asegura que el botón esté al frente */
+  }
+  
+.help-btn{
+    border-radius: 30px;
+    background-color: #131313;
+    color: #929191;
+    border:2px solid #929191;
+    cursor: pointer;
+}
+.help-btn:hover{
+    background-color: #7e7e7e;
+    color: #070707;
+}
+
+.parrafo-de-ayuda{
+    background-color: #0a0a0aec;
+    padding: 10px;
+    padding-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #929191;
+}

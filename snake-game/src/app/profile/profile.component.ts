@@ -6,6 +6,7 @@ import { Router } from '@angular/router'; // Importa Router
 // Services 
 import { GameService } from '../services/game/game.service';
 import { AuthService } from '../services/auth/auth.service';
+import { SoundService } from '../services/sound/sound.service';
 
 // Models
 import { Game } from '../models/game';
@@ -31,14 +32,18 @@ export class ProfileComponent implements OnInit {
   dategame:any;
   difict:any;
   selectedDifficulty: string = 'Easy'; // Dificultad predeterminada
-
+  selectedControl: string = 'keyboard'; // Control predeterminado
 
 
   constructor(
     private gameService: GameService,
     private auth: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private soundService: SoundService,
+  ) {
+    this.soundService.stoppleyStart();
+    this.soundService.playBackground();
+  }
 
   // Selector de sección de perfil 
   IsSetting: string = "games";
@@ -52,6 +57,10 @@ export class ProfileComponent implements OnInit {
 
   selectDifficulty(difficulty: string) {
     this.selectedDifficulty = difficulty;
+  }
+
+  selectControl(control: string) {
+    this.selectedControl = control;
   }
 
   ngOnInit() {
@@ -128,7 +137,7 @@ export class ProfileComponent implements OnInit {
 
 
   startGame() {
-    this.router.navigate(['/snake'],{ queryParams: { dificult: this.selectedDifficulty } });
+    this.router.navigate(['/snake'],{ queryParams: { dificult: this.selectedDifficulty, control: this.selectedControl } });
   }
   
   // Nueva función para actualizar la lista de juegos

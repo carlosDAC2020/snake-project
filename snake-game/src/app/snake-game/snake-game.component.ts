@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router'; // obtener parametros de url
 // services
 import { GameService } from '../services/game/game.service';
 import { AuthService } from '../services/auth/auth.service';
+import { SoundService } from '../services/sound/sound.service';
 
 @Component({
   selector: 'app-snake-game',
@@ -19,6 +20,11 @@ export class SnakeGameComponent implements OnInit {
 
   @ViewChild('gameCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   ctx!: CanvasRenderingContext2D | null;
+
+  user: any = {};
+
+  // estado de ayuda 
+  help: boolean = false;
 
   snakeEffect: string = '';
   currentSpeed: number = 100;
@@ -42,6 +48,8 @@ export class SnakeGameComponent implements OnInit {
   gameTime: number = 0;
   gameTimeInterval: any = null;
 
+  dead: boolean = false;
+
   lastFoodWasSuperSpecial: boolean = false;
 
   dificult: string = '';
@@ -52,22 +60,73 @@ export class SnakeGameComponent implements OnInit {
     private auth:AuthService,
     private router: Router,
     private params: ActivatedRoute,
+    private soundService: SoundService,
   ) {
+    this.soundService.stopBackground();
+    this.soundService.playStart();
+    this.loadUserProfile();
     this.inPley = false;
+
   }
 
-  ngOnInit() {
+  controlMethod: 'keyboard' | 'mouse' = 'keyboard'; // Variable para el método de control
+
+  loadUserProfile() {
+    this.auth.getUserProfile().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.user = response.user; 
+        // validamos si el usuario es nuevo y necesita ayuda incial 
+        console.log(this.user.is_new_player);
+        if(this.user.is_new_player){
+          console.log("help");
+          this.help = true;
+        }
+        else{
+          console.log("no help");
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar el perfil del usuario', err);
+      }
+    });
+  }
+
+  closeHelp(){
+    this.help = false;
+  }
+
+  showHelp(){
+    this.help = true;
+  }
+ngOnInit() {
+
+
+    // Resto de la inicialización
     this.params.queryParams.subscribe(parms => {
       this.dificult = parms['dificult'];
+      this.controlMethod = parms['control'];
     });
     this.ctx = this.canvas.nativeElement.getContext('2d');
     if (this.ctx) {
-      this.placeSnake(); // Colocar la serpiente al cargar el componente
-      this.placeFood(); // Colocar la comida al cargar el componente
-      this.placeObstacles(); // Colocar obstáculos al cargar el componente
-      this.drawAll(); // Dibuja todo al cargar
+      this.placeSnake();
+      this.placeFood();
+      this.placeObstacles();
+      this.drawAll();
     } else {
       console.error("El contexto del canvas no se pudo inicializar");
+    }
+}
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeydown(event: KeyboardEvent): void {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+      if (!this.inPley) {
+        this.startGame();
+      }
+    }
+    if (event.key === ' ') {
+      this.toggleGame();
     }
   }
 
@@ -76,6 +135,7 @@ export class SnakeGameComponent implements OnInit {
     const gameData = {
       score: this.score, // El puntaje será asignado por el backend de forma aleatoria
       difficulty: this.dificult || '', // Dificultad seleccionada, o vacío si no está definida
+      time : this.gameTime
     };
   
     // Obtener el token de autenticación
@@ -197,19 +257,38 @@ export class SnakeGameComponent implements OnInit {
     this.drawAll();
   }
 
+
   drawSnake() {
     this.ctx!.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-
-    this.snake.forEach((segment) => {
-      if (this.snakeEffect === 'faster') {
-        this.ctx!.fillStyle = 'yellow';
+  
+    // Itera sobre cada segmento de la serpiente
+    this.snake.forEach((segment, index) => {
+      if (index === 0) {
+        // Estilo de la cabeza de la serpiente
+        this.ctx!.fillStyle = this.snakeEffect === 'faster' ? 'yellow' : 'green';
+        this.ctx!.beginPath();
+        this.ctx!.arc(segment.x + this.gridSize / 2, segment.y + this.gridSize / 2, this.gridSize / 2, 0, 2 * Math.PI);
+        this.ctx!.fill();
+  
+        // Dibuja ojos
+        this.ctx!.fillStyle = 'white';
+        const eyeOffset = this.gridSize / 4;
+        this.ctx!.beginPath();
+        this.ctx!.arc(segment.x + eyeOffset, segment.y + eyeOffset, 2, 0, 2 * Math.PI);
+        this.ctx!.fill();
+        this.ctx!.beginPath();
+        this.ctx!.arc(segment.x + this.gridSize - eyeOffset, segment.y + eyeOffset, 2, 0, 2 * Math.PI);
+        this.ctx!.fill();
       } else {
-        this.ctx!.fillStyle = 'green';
+        // Estilo para el resto de los segmentos de la serpiente (cuerpo)
+        this.ctx!.fillStyle = this.snakeEffect === 'faster' ? 'yellow' : 'green';
+        this.ctx!.beginPath();
+        this.ctx!.arc(segment.x + this.gridSize / 2, segment.y + this.gridSize / 2, this.gridSize / 2, 0, 2 * Math.PI);
+        this.ctx!.fill();
       }
-
-      this.ctx!.fillRect(segment.x, segment.y, this.gridSize, this.gridSize);
     });
   }
+  
 
   drawFood() {
     this.ctx!.fillStyle = this.food.color;
@@ -227,8 +306,12 @@ export class SnakeGameComponent implements OnInit {
     const newHead = { x: this.snake[0].x + this.direction.x, y: this.snake[0].y + this.direction.y };
     this.snake.unshift(newHead);
 
+   
     if (newHead.x === this.food.x && newHead.y === this.food.y) {
+      // Reproducir sonido al comer
+      this.soundService.playEat();
       this.score += this.food.points;
+
 
       if (this.food === this.superSpecialFood) {
         this.lastFoodWasSuperSpecial = true;
@@ -259,12 +342,16 @@ export class SnakeGameComponent implements OnInit {
     this.gameInterval = setInterval(() => this.gameLoop(), newSpeed);
     this.snakeEffect = 'faster';
 
+    // Reproducir sonido de velocidad
+    this.soundService.playSpeedUp();
+
     setTimeout(() => {
       this.restoreSpeed();
     }, duration * 1000);
   }
 
   restoreSpeed() {
+    this.soundService.stopspeedUp();
     clearInterval(this.gameInterval);
     this.snakeEffect = '';
     this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);
@@ -275,20 +362,37 @@ export class SnakeGameComponent implements OnInit {
 
     // Verificar colisiones con las paredes
     if (head.x < 0 || head.x >= this.canvasWidth || head.y < 0 || head.y >= this.canvasHeight) {
+      if (this.snakeEffect === 'faster') {
+        this.soundService.stopspeedUp();
+      }
+      this.soundService.playGameOver();
       this.endGame();
+      console.log(" colisiones con las paredes ");
+      
     }
 
     // Verificar colisiones con el cuerpo de la serpiente
     for (let i = 1; i < this.snake.length; i++) {
       if (head.x === this.snake[i].x && head.y === this.snake[i].y) {
+        if (this.snakeEffect === 'faster') {
+          this.soundService.stopspeedUp();
+        }
+        this.soundService.playGameOver();
         this.endGame();
+        console.log(" cuerpo de la serpiente ");
+        
       }
     }
 
     // Verificar colisiones con obstáculos
     for (const obstacle of this.obstacles) {
       if (head.x === obstacle.x && head.y === obstacle.y) {
+        if (this.snakeEffect === 'faster') {
+          this.soundService.stopspeedUp();
+        }
+        this.soundService.playGameOver();
         this.endGame();
+        console.log(" colisiones con obstáculos ");
       }
     }
   }
@@ -312,24 +416,53 @@ export class SnakeGameComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (!this.inPley) {
-      this.toggleGame();
-    }
-    switch (event.key) {
-      case 'ArrowUp':
-        if (this.direction.y === 0) this.direction = { x: 0, y: -this.gridSize };
-        break;
-      case 'ArrowDown':
-        if (this.direction.y === 0) this.direction = { x: 0, y: this.gridSize };
-        break;
-      case 'ArrowLeft':
-        if (this.direction.x === 0) this.direction = { x: -this.gridSize, y: 0 };
-        break;
-      case 'ArrowRight':
-        if (this.direction.x === 0) this.direction = { x: this.gridSize, y: 0 };
-        break;
-    }
+      if (this.controlMethod !== 'keyboard' || !this.inPley) return;
+
+      switch (event.key) {
+          case 'ArrowUp':
+              if (this.direction.y === 0) this.direction = { x: 0, y: -this.gridSize };
+              break;
+          case 'ArrowDown':
+              if (this.direction.y === 0) this.direction = { x: 0, y: this.gridSize };
+              break;
+          case 'ArrowLeft':
+              if (this.direction.x === 0) this.direction = { x: -this.gridSize, y: 0 };
+              break;
+          case 'ArrowRight':
+              if (this.direction.x === 0) this.direction = { x: this.gridSize, y: 0 };
+              break;
+      }
   }
+
+
+
+
+  @HostListener('window:mousemove', ['$event'])
+handleMouseMove(event: MouseEvent) {
+    if (this.controlMethod === 'mouse' && this.inPley) {
+        const canvasRect = this.canvas.nativeElement.getBoundingClientRect();
+        const mouseX = event.clientX - canvasRect.left;
+        const mouseY = event.clientY - canvasRect.top;
+
+        const head = this.snake[0];
+        const deltaX = mouseX - head.x;
+        const deltaY = mouseY - head.y;
+
+        // Calcular el ángulo hacia el que debe moverse la cabeza
+        const angle = Math.atan2(deltaY, deltaX);
+
+        // Ajustar la dirección al tamaño de la cuadrícula
+        const gridMoveX = Math.round(Math.cos(angle)) * this.gridSize;
+        const gridMoveY = Math.round(Math.sin(angle)) * this.gridSize;
+
+        // Cambiar la dirección a pasos de gridSize
+        if (gridMoveX !== this.direction.x || gridMoveY !== this.direction.y) {
+            this.direction = { x: gridMoveX, y: gridMoveY };
+        }
+    }
+}
+
+
 
   changeDifficulty(difficulty: string) {
     this.dificult = difficulty;
