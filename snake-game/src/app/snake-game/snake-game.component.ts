@@ -55,6 +55,14 @@ export class SnakeGameComponent implements OnInit {
   dificult: string = '';
   obstacles: { x: number, y: number }[] = [];
 
+
+  // Nueva serpiente para la máquina
+  machineSnake: { x: number, y: number }[] = [{ x: 100, y: 100 }];
+  machineDirection: { x: number, y: number } = { x: this.gridSize, y: 0 };
+
+  // Lista de comida
+  foods: Food[] = [];
+  
   constructor(
     private gameService:GameService,
     private auth:AuthService,
@@ -99,6 +107,7 @@ export class SnakeGameComponent implements OnInit {
   showHelp(){
     this.help = true;
   }
+
 ngOnInit() {
 
 
@@ -433,9 +442,6 @@ ngOnInit() {
               break;
       }
   }
-
-
-
 
   @HostListener('window:mousemove', ['$event'])
 handleMouseMove(event: MouseEvent) {

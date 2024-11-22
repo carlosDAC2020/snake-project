@@ -116,7 +116,7 @@ def list_all_games(request):
             games = Game.objects.filter(user=user,difficulty=dif).order_by('-score')
             if len(games) > 0:
                 dificult[dif].append(games[0])
-                print(games[0])
+                
     
     for dif in dificult.keys():
         # ordenamos de mayor a menor puntaje de juegos 
